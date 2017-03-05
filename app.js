@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 // mongoose.connect( 'mongodb://localhost/scorer' );
-mongoose.connect( process.env.MONGOLAB_URI );
+mongoose.connect( process.env.MONGODB_URI );
 
 var index = require('./routes/index');
 var players = require('./routes/players');
