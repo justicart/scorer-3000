@@ -21,8 +21,8 @@ class PlayerForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input name="name" type="text" onChange={this.handleChange} />
-        <input name="image" type="text" onChange={this.handleChange} />
+        <input name="name" type="text" onChange={this.handleChange} placeholder="Player Name" />
+        <input name="image" type="text" onChange={this.handleChange} placeholder="Player Picture URL" />
         <button className="btn" type="submit">Add Player</button>
       </form>
     );

@@ -33,6 +33,16 @@ class GameForm extends React.Component {
     this.setState({ showAddPlayer: !this.state.showAddPlayer })
   }
 
+
+  deletePlayer = (id) => {
+    $.ajax({
+      url: `/players/${id}`,
+      type: 'DELETE'
+    }).done( () => {
+      this.props.getPlayers();
+    });
+  }
+
   render() {
     const players = this.props.players || [];
     const playersList = players.map( player => {
@@ -40,6 +50,7 @@ class GameForm extends React.Component {
       const style = { background: `url(${player.image}) no-repeat 50% 50%/cover` };
       return (
         <div className="flexChild" key={player._id}>
+          {this.state.showAddPlayer && <div onClick={() => this.deletePlayer(player._id)}>X</div>}
           <div
             className={`picture ${active ? 'active' : ''}`}
             style={ style }
@@ -58,7 +69,7 @@ class GameForm extends React.Component {
             <div className="picture" onClick={this.toggleAddPlayer}>+</div>
           </div>
         </div>
-        {this.state.showAddPlayer && <PlayerForm getPlayers={this.getPlayers} />}
+        {this.state.showAddPlayer && <PlayerForm getPlayers={this.props.getPlayers} />}
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"

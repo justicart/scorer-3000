@@ -5,7 +5,7 @@ import GameList from '../components/GameList';
 import Game from '../components/game/Game';
 
 class App extends React.Component {
-  state = { games: [], playGame: false, activeGame: '' }
+  state = { games: [], playGame: false, activeGame: '', players: [] }
 
   componentDidMount() {
     this.getPlayers();
@@ -60,7 +60,7 @@ class App extends React.Component {
         <Nav />
         <div className="container">
           {!playGame && <div>
-            <GameForm startGame={this.startGame} players={this.state.players} />
+            <GameForm startGame={this.startGame} players={this.state.players} getPlayers={this.getPlayers} />
             <GameList games={this.state.games} startGame={this.startGame} deleteGame={this.deleteGame} />
           </div>}
           {playGame && <Game game={this.state.activeGame} players={this.state.players} />}
