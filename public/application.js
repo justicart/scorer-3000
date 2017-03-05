@@ -9496,7 +9496,7 @@ var App = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = { games: [], playGame: false, activeGame: '' }, _this.getPlayers = function () {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = { games: [], playGame: false, activeGame: '', players: [] }, _this.getPlayers = function () {
       $.ajax({
         url: '/players',
         type: 'GET'
@@ -9550,7 +9550,7 @@ var App = function (_React$Component) {
           !playGame && _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_GameForm2.default, { startGame: this.startGame, players: this.state.players }),
+            _react2.default.createElement(_GameForm2.default, { startGame: this.startGame, players: this.state.players, getPlayers: this.getPlayers }),
             _react2.default.createElement(_GameList2.default, { games: this.state.games, startGame: this.startGame, deleteGame: this.deleteGame })
           ),
           playGame && _react2.default.createElement(_Game2.default, { game: this.state.activeGame, players: this.state.players })
@@ -9647,6 +9647,13 @@ var GameForm = function (_React$Component) {
       });
     }, _this.toggleAddPlayer = function () {
       _this.setState({ showAddPlayer: !_this.state.showAddPlayer });
+    }, _this.deletePlayer = function (id) {
+      $.ajax({
+        url: '/players/' + id,
+        type: 'DELETE'
+      }).done(function () {
+        _this.props.getPlayers();
+      });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -9662,6 +9669,13 @@ var GameForm = function (_React$Component) {
         return _react2.default.createElement(
           'div',
           { className: 'flexChild', key: player._id },
+          _this2.state.showAddPlayer && _react2.default.createElement(
+            'div',
+            { onClick: function onClick() {
+                return _this2.deletePlayer(player._id);
+              } },
+            'X'
+          ),
           _react2.default.createElement('div', {
             className: 'picture ' + (active ? 'active' : ''),
             style: style,
@@ -9694,7 +9708,7 @@ var GameForm = function (_React$Component) {
             )
           )
         ),
-        this.state.showAddPlayer && _react2.default.createElement(_PlayerForm2.default, { getPlayers: this.getPlayers }),
+        this.state.showAddPlayer && _react2.default.createElement(_PlayerForm2.default, { getPlayers: this.props.getPlayers }),
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
@@ -9955,8 +9969,8 @@ var PlayerForm = function (_React$Component) {
       return _react2.default.createElement(
         'form',
         { onSubmit: this.handleSubmit },
-        _react2.default.createElement('input', { name: 'name', type: 'text', onChange: this.handleChange }),
-        _react2.default.createElement('input', { name: 'image', type: 'text', onChange: this.handleChange }),
+        _react2.default.createElement('input', { name: 'name', type: 'text', onChange: this.handleChange, placeholder: 'Player Name' }),
+        _react2.default.createElement('input', { name: 'image', type: 'text', onChange: this.handleChange, placeholder: 'Player Picture URL' }),
         _react2.default.createElement(
           'button',
           { className: 'btn', type: 'submit' },
