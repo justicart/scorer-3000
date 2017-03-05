@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
-mongoose.connect( 'mongodb://localhost/scorer' );
+// mongoose.connect( 'mongodb://localhost/scorer' );
+mongoose.connect( process.env.MONGOLAB_URI );
 
 var index = require('./routes/index');
 var players = require('./routes/players');
