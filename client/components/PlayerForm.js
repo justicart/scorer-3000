@@ -16,18 +16,18 @@ class PlayerForm extends React.Component {
     let { dispatch } = this.props;
     let playerList = this.props.players.map( player => {
       return (
-        <li key={player._id} className="collection-item">
-          <div>
-            { player.name }
-            <span className="secondary-content">
-              <Link to={`/player/${player._id}`}>
-                <i className="material-icons">mode_edit</i>
-              </Link>
-              <Link onClick={() => this.deletePlayer(player._id)}>
-                <i className="red-text material-icons">delete</i>
-              </Link>
-            </span>
-          </div>
+        <li key={player._id} className="collection-item avatar">
+          <img src={player.image} alt="" className="circle" />
+          <span className="title">{ player.name }</span>
+          <p>Stats here</p>
+          <span className="secondary-content">
+            <Link to={`/player/${player._id}`}>
+              <i className="material-icons">mode_edit</i>
+            </Link>
+            <Link onClick={() => this.deletePlayer(player._id)}>
+              <i className="red-text material-icons">delete</i>
+            </Link>
+          </span>
         </li>
       )
     });
