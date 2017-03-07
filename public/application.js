@@ -13779,33 +13779,39 @@ var PlayerForm = function (_React$Component) {
       var playerList = this.props.players.map(function (player) {
         return _react2.default.createElement(
           'li',
-          { key: player._id, className: 'collection-item' },
+          { key: player._id, className: 'collection-item avatar' },
+          _react2.default.createElement('img', { src: player.image, alt: '', className: 'circle' }),
           _react2.default.createElement(
-            'div',
+            'span',
+            { className: 'title' },
+            player.name
+          ),
+          _react2.default.createElement(
+            'p',
             null,
-            player.name,
+            'Stats here'
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'secondary-content' },
             _react2.default.createElement(
-              'span',
-              { className: 'secondary-content' },
+              _reactRouter.Link,
+              { to: '/player/' + player._id },
               _react2.default.createElement(
-                _reactRouter.Link,
-                { to: '/player/' + player._id },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'mode_edit'
-                )
-              ),
+                'i',
+                { className: 'material-icons' },
+                'mode_edit'
+              )
+            ),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { onClick: function onClick() {
+                  return _this2.deletePlayer(player._id);
+                } },
               _react2.default.createElement(
-                _reactRouter.Link,
-                { onClick: function onClick() {
-                    return _this2.deletePlayer(player._id);
-                  } },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'red-text material-icons' },
-                  'delete'
-                )
+                'i',
+                { className: 'red-text material-icons' },
+                'delete'
               )
             )
           )
