@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router'
+import Flash from '../components/Flash';
 
 class App extends React.Component {
   componentDidMount() {
@@ -9,6 +10,7 @@ class App extends React.Component {
   links = () => {
     return [
       { name: 'Home', path: '/' },
+      { name: 'Settings', path: '/settings' },
     ].map( (link, i) => {
       let active = this.props.location.pathname === link.path ? 'active' : '';
       return (
@@ -34,7 +36,8 @@ class App extends React.Component {
             </ul>
           </div>
         </nav>
-        {this.props.children}
+        <Flash />
+        <div className="container">{this.props.children}</div>
       </div>
     );
   }

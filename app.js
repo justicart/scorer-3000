@@ -10,6 +10,8 @@ const db = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mo
 mongoose.connect( db );
 
 var index = require('./routes/index');
+var games = require('./routes/games');
+var players = require('./routes/players');
 var app = express();
 
 // view engine setup
@@ -25,6 +27,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/materialize', express.static(__dirname + '/node_modules/materialize-css/dist/js/'));
 app.use('/jquery', express.static(__dirname + '/node_modules/materialize-css/node_modules/jquery/dist/'));
+
+// api
+app.use('/api/games', games)
+app.use('/api/players', players)
+
 app.use('*', index);
 
 // catch 404 and forward to error handler
