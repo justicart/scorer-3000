@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
-mongoose.connect( 'mongodb://localhost/redux-express' );
+const db = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost/scorer';
+mongoose.connect( db );
 
 var index = require('./routes/index');
 var app = express();
