@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
-mongoose.connect( 'mongodb://localhost/scorer-3000' );
+mongoose.connect( 'mongodb://localhost/redux-express' );
 
 var index = require('./routes/index');
 var app = express();
