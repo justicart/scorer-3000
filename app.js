@@ -4,6 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var back = require('express-back');
 
 var mongoose = require('mongoose');
 const db = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost/scorer';
@@ -12,6 +15,7 @@ mongoose.connect( db );
 var index = require('./routes/index');
 var games = require('./routes/games');
 var players = require('./routes/players');
+const auth = require('./routes/auth');
 var app = express();
 
 // view engine setup
@@ -20,6 +24,15 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,9 +41,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/materialize', express.static(__dirname + '/node_modules/materialize-css/dist/js/'));
 app.use('/jquery', express.static(__dirname + '/node_modules/materialize-css/node_modules/jquery/dist/'));
 
+const User = require('./models/user');
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // api
 app.use('/api/games', games)
 app.use('/api/players', players)
+app.use('/api/auth', auth);
 
 app.use('*', index);
 

@@ -14,15 +14,23 @@ export const getGames = () => {
   }
 }
 
-export const addGame = (title, body) => {
+export const addGame = (router, playerIds) => {
+  const date = new Date();
   return (dispatch) => {
     $.ajax({
       url: '/api/games',
       type: 'POST',
-      data: { title, body }
+      data: {
+        playerIds: playerIds,
+        holes: 18,
+        playedHoles: [],
+        name: date.toLocaleString(),
+        date: date
+      }
     }).done( game => {
       dispatch({ type: 'ADD_GAME', game });
       dispatch(setFlash('Game Added', 'success'))
+      router.push(`/games/${game._id}`);
     }).fail( err => {
       let errors = err.responseJSON.errors;
       let messages = Object.keys(errors)

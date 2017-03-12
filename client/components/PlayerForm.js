@@ -14,10 +14,11 @@ class PlayerForm extends React.Component {
     let image;
     let form;
     let { dispatch } = this.props;
-    let playerList = this.props.players.map( player => {
+    const playerList = this.props.players.map( player => {
+      const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
       return (
         <li key={player._id} className="collection-item avatar">
-          <img src={player.image} alt="" className="circle" />
+          <div style={playerStyle} className="circle"></div>
           <span className="title">{ player.name }</span>
           <p>Stats here</p>
           <span className="secondary-content">
