@@ -2,6 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Game extends React.Component {
+  state = { scores: {} };
+
+  increaseScore = (playerId) => {
+    let count = 0;
+    if (this.state.scores[playerId]) {
+      count = this.state.scores[playerId].score + 1;
+    }
+    this.setState({ scores: { [playerId]: count }});
+  }
+
   saveHole = () => {
     console.warn("save");
   }
@@ -12,12 +22,23 @@ class Game extends React.Component {
       return playerIds.indexOf(player._id) > -1;
     }).map( player => {
       const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
+      const playerId = player._id;
+      let score = 0;
+      if (this.state.scores[player._id])
+        score = this.state.scores[player._id].score;
       return (
         <div className="collection-item avatar" key={player._id}>
           <div style={playerStyle} className="circle"></div>
           <span className="title">{ player.name }</span>
           <p>Stats here</p>
-          <input className="flexChild" name={player._id} />
+          <div className="secondary-content score rowParent">
+            <div className="btn decrease flexChild">-</div>
+            <input className="flexChild" value={score} />
+            <div
+              className="btn increase flexChild"
+              onClick={ () => this.increaseScore(player._id) }
+            >+</div>
+          </div>
         </div>
       )
     })

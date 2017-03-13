@@ -29,7 +29,7 @@ export const addGame = (router, playerIds) => {
       }
     }).done( game => {
       dispatch({ type: 'ADD_GAME', game });
-      dispatch(setFlash('Game Added', 'success'))
+      // dispatch(setFlash('Game Added', 'success'))
       router.push(`/games/${game._id}`);
     }).fail( err => {
       let errors = err.responseJSON.errors;

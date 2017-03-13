@@ -77,7 +77,9 @@ class App extends React.Component {
           </div>
         </nav>
         <Flash />
-        <div className="container">{this.props.children}</div>
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     );
   }

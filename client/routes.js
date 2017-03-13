@@ -25,15 +25,15 @@ export default (
   <Route>
     <Route path="/" component={App}>
       <Route component={SetupState}>
+        <IndexRoute component={CreateGame} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/games/:id" component={Game} />
         <Route component={AuthenticatedRoutes}>
           <Route path="/dashboard" component={Dashboard} />
           <Route component={AdminRoutes}>
             <Route path="/admin" component={Admin} />
           </Route>
         </Route>
-        <IndexRoute component={CreateGame} />
-        <Route path="/settings" component={Settings} />
-        <Route path="/games/:id" component={Game} />
       </Route>
       <Route path="/signup" component={Auth} title="Sign Up" />
       <Route path="/login" component={Auth} title="Log In" />
