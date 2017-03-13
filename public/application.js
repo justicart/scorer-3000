@@ -5604,7 +5604,7 @@ var addGame = exports.addGame = function addGame(router, playerIds) {
       }
     }).done(function (game) {
       dispatch({ type: 'ADD_GAME', game: game });
-      dispatch((0, _flash.setFlash)('Game Added', 'success'));
+      // dispatch(setFlash('Game Added', 'success'))
       router.push('/games/' + game._id);
     }).fail(function (err) {
       var errors = err.responseJSON.errors;
@@ -13520,6 +13520,9 @@ exports.default = _react2.default.createElement(
     _react2.default.createElement(
       _reactRouter.Route,
       { component: _SetupState2.default },
+      _react2.default.createElement(_reactRouter.IndexRoute, { component: _CreateGame2.default }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/settings', component: _Settings2.default }),
+      _react2.default.createElement(_reactRouter.Route, { path: '/games/:id', component: _Game2.default }),
       _react2.default.createElement(
         _reactRouter.Route,
         { component: _AuthenticatedRoutes2.default },
@@ -13529,10 +13532,7 @@ exports.default = _react2.default.createElement(
           { component: AdminRoutes },
           _react2.default.createElement(_reactRouter.Route, { path: '/admin', component: _Admin2.default })
         )
-      ),
-      _react2.default.createElement(_reactRouter.IndexRoute, { component: _CreateGame2.default }),
-      _react2.default.createElement(_reactRouter.Route, { path: '/settings', component: _Settings2.default }),
-      _react2.default.createElement(_reactRouter.Route, { path: '/games/:id', component: _Game2.default })
+      )
     ),
     _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Auth2.default, title: 'Sign Up' }),
     _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Auth2.default, title: 'Log In' }),
@@ -14032,6 +14032,8 @@ var _reactRedux = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -14052,7 +14054,13 @@ var Game = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Game.__proto__ || Object.getPrototypeOf(Game)).call.apply(_ref, [this].concat(args))), _this), _this.saveHole = function () {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Game.__proto__ || Object.getPrototypeOf(Game)).call.apply(_ref, [this].concat(args))), _this), _this.state = { scores: {} }, _this.increaseScore = function (playerId) {
+      var count = 0;
+      if (_this.state.scores[playerId]) {
+        count = _this.state.scores[playerId].score + 1;
+      }
+      _this.setState({ scores: _defineProperty({}, playerId, count) });
+    }, _this.saveHole = function () {
       console.warn("save");
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -14060,6 +14068,8 @@ var Game = function (_React$Component) {
   _createClass(Game, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props$game = this.props.game,
           name = _props$game.name,
           playerIds = _props$game.playerIds,
@@ -14070,6 +14080,9 @@ var Game = function (_React$Component) {
         return playerIds.indexOf(player._id) > -1;
       }).map(function (player) {
         var playerStyle = { background: 'url(' + player.image + ') no-repeat 50% 50%/cover' };
+        var playerId = player._id;
+        var score = 0;
+        if (_this2.state.scores[player._id]) score = _this2.state.scores[player._id].score;
         return _react2.default.createElement(
           'div',
           { className: 'collection-item avatar', key: player._id },
@@ -14084,7 +14097,26 @@ var Game = function (_React$Component) {
             null,
             'Stats here'
           ),
-          _react2.default.createElement('input', { className: 'flexChild', name: player._id })
+          _react2.default.createElement(
+            'div',
+            { className: 'secondary-content score rowParent' },
+            _react2.default.createElement(
+              'div',
+              { className: 'btn decrease flexChild' },
+              '-'
+            ),
+            _react2.default.createElement('input', { className: 'flexChild', value: score }),
+            _react2.default.createElement(
+              'div',
+              {
+                className: 'btn increase flexChild',
+                onClick: function onClick() {
+                  return _this2.increaseScore(player._id);
+                }
+              },
+              '+'
+            )
+          )
         );
       });
       return _react2.default.createElement(
@@ -14775,15 +14807,15 @@ var games = function games() {
     case 'GAMES':
       return action.games;
     case 'ADD_GAME':
-      return [action.note].concat(_toConsumableArray(state));
+      return [action.game].concat(_toConsumableArray(state));
     case 'UPDATE_GAME':
-      return state.map(function (note) {
-        if (note._id === action.note._id) return action.note;
-        return note;
+      return state.map(function (game) {
+        if (game._id === action.game._id) return action.game;
+        return game;
       });
     case 'DELETE_GAME':
-      return state.filter(function (note) {
-        return note._id !== action.id;
+      return state.filter(function (game) {
+        return game._id !== action.id;
       });
     default:
       return state;
