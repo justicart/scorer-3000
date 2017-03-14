@@ -17,7 +17,8 @@ class Game extends React.Component {
   }
 
   render() {
-    let { game: { name, playerIds, holes, playedHoles } } = this.props;
+    const game = this.props.game || {};
+    const { name, playerIds, holes, playedHoles } = game;
     const scoring = this.props.players.filter( player => {
       return playerIds.indexOf(player._id) > -1;
     }).map( player => {
