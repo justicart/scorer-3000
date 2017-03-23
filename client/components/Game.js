@@ -3,9 +3,15 @@ import { connect } from 'react-redux';
 import Score from './Score';
 import { saveScore } from '../actions/scores';
 import { updateHole } from '../actions/holes';
+import { getHolesForGame, getScoresForHole } from '../actions/games';
 
 class Game extends React.Component {
   state = { holeIndex: 0, scores: {} };
+
+  componentDidMount = () => {
+    this.props.dispatch(getHolesForGame(this.props.params.id));
+    this.props.dispatch(getScoresForHole(this.props.params.id, this.props.params.number));
+  }
 
   increaseScore = (playerId) => {
     const scores = this.state.scores;
@@ -45,8 +51,9 @@ class Game extends React.Component {
         holeId,
         gameId,
       }
-      console.warn('data',data);
+      // console.warn('data',data);
       this.props.dispatch(saveScore(data));
+      // this.setState({ scores: {} })
     })
     this.props.dispatch(updateHole(this.props.router, gameId, holeId, game.holes))
   }
@@ -55,6 +62,11 @@ class Game extends React.Component {
     const game = this.props.game || {};
     const hole = this.props.hole || '';
     const holeName = hole.name || '';
+    const savedScores = this.props.scores || [];
+    const formattedScores = {};
+    savedScores.map(score => {
+      return formattedScores[score.playerId] = score.score;
+    })
     const { name, playerIds, playedHoles } = game;
     const scoring = this.props.players.filter( player => {
       return playerIds.indexOf(player._id) > -1;
@@ -66,6 +78,7 @@ class Game extends React.Component {
           gameId={game._id}
           holeId={hole._id}
           scores={this.state.scores}
+          savedScores={formattedScores}
           decreaseScore={this.decreaseScore}
           increaseScore={this.increaseScore}
           setScore={this.setScore}
@@ -92,7 +105,8 @@ const mapStateToProps = (state, props) => {
     players: state.players,
     hole: state.holes.find( h => {
       return h.gameId === props.params.id && h.hole === parseInt(props.params.number)
-    })
+    }),
+    scores: state.scores,
   }
 }
 

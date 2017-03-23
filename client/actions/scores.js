@@ -1,6 +1,6 @@
 
 export const saveScore = (data) => {
-  console.warn(data);
+  // console.warn(data);
   return (dispatch) => {
     $.ajax({
       url: '/api/scores',
@@ -12,7 +12,7 @@ export const saveScore = (data) => {
         gameId: data.gameId,
       }
     }).done( score => {
-      console.log(score);
+      // console.log(score);
     }).fail( err => {
       console.error(err);
     })

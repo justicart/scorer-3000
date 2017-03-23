@@ -14,6 +14,28 @@ export const getGames = () => {
   }
 }
 
+export const getHolesForGame = (gameId) => {
+  return (dispatch) => {
+    $.ajax({
+      url: `/api/games/${gameId}/holes`,
+      type: 'GET'
+    }).done( holes => {
+      dispatch({ type: 'HOLES', holes })
+    });
+  }
+}
+
+export const getScoresForHole = (gameId, holeNumber) => {
+  return (dispatch) => {
+    $.ajax({
+      url: `/api/games/${gameId}/holes/${holeNumber}`,
+      type: 'GET'
+    }).done( scores => {
+      dispatch({ type: 'SCORES', scores })
+    });
+  }
+}
+
 export const addGame = (router, playerIds) => {
   const date = new Date();
   return (dispatch) => {

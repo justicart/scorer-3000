@@ -9,15 +9,38 @@ router.get('/', (req, res) => {
   });
 });
 
+// router.post('/', (req, res) => {
+//   new Score({
+//     score: req.body.score,
+//     playerId: req.body.playerId,
+//     holeId: req.body.holeId,
+//     gameId: req.body.gameId
+//   }).save( (err, score) => {
+//     res.json(score);
+//   });
+// });
+
 router.post('/', (req, res) => {
-  new Score({
+  const data = {
     score: req.body.score,
     playerId: req.body.playerId,
     holeId: req.body.holeId,
     gameId: req.body.gameId
-  }).save( (err, score) => {
-    res.json(score);
-  });
+  }
+  const query = {
+    playerId: req.body.playerId,
+    holeId: req.body.holeId,
+    gameId: req.body.gameId
+  }
+  Score.findOneAndUpdate(
+    query,
+    { $set: data },
+    { new: true, upsert: true },
+    (err, score) => {
+      if (err) console.log(err)
+      res.json(score);
+    }
+  );
 });
 
 router.put('/:id', ( req, res ) => {

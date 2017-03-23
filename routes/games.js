@@ -2,11 +2,27 @@ const express = require('express');
 const router = express.Router();
 const Game = require('../models/game');
 const Hole = require('../models/hole');
+const Score = require('../models/score');
 
 router.get('/', (req, res) => {
   Game.find( ( err, games ) => {
     res.json(games);
   });
+});
+
+router.get('/:id/holes', (req, res) => {
+  Hole.find({ gameId: req.params.id }, ( err, holes ) => {
+    res.json(holes);
+  });
+});
+
+router.get('/:id/holes/:number', (req, res) => {
+  Hole.findOne({ gameId: req.params.id, hole: req.params.number }, (err, hole) => {
+    Score.find({ gameId: req.params.id, holeId: hole._id }, ( err, scores ) => {
+      console.log(scores)
+      res.json(scores);
+    });
+  })
 });
 
 router.post('/', (req, res) => {

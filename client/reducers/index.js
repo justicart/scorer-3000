@@ -5,6 +5,7 @@ import players from './players';
 import flash from './flash';
 import user from './user';
 import holes from './holes';
+import scores from './scores';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   flash,
   user,
   holes,
+  scores,
 });
 
 export default rootReducer;

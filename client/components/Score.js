@@ -1,6 +1,12 @@
 import React from 'react';
 
 class Score extends React.Component {
+  componentDidMount() {
+    const playerId = this.props.player._id;
+    // console.warn(this.props.savedScores[playerId]);
+    this.props.setScore(playerId, this.props.savedScores[playerId])
+  }
+
   setScore = (e) => {
     e.preventDefault();
     const score = parseInt(e.target.value);
