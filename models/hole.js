@@ -6,7 +6,8 @@ const Hole = new Schema({
   playerIds: { type: Array },
   hole: { type: Number },
   gameId: { type: String },
-  date: { type: Date }
+  created_at: { type: Date },
+  finished_at: { type: Date }
 });
 
 module.exports = mongoose.model( 'Hole', Hole );

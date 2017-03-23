@@ -1,50 +1,80 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Score from './Score';
+import { saveScore } from '../actions/scores';
+import { updateHole } from '../actions/holes';
 
 class Game extends React.Component {
-  state = { scores: {} };
+  state = { holeIndex: 0, scores: {} };
 
   increaseScore = (playerId) => {
-    let count = 0;
-    if (this.state.scores[playerId]) {
-      count = this.state.scores[playerId].score + 1;
+    const scores = this.state.scores;
+    let count = 1;
+    if (scores[playerId] !== undefined) {
+      count = scores[playerId] + 1;
     }
-    this.setState({ scores: { [playerId]: count }});
+    scores[playerId] = count
+    this.setState({ scores });
   }
 
-  saveHole = () => {
-    console.warn("save");
+  decreaseScore = (playerId) => {
+    const scores = this.state.scores;
+    let count = -1;
+    if (scores[playerId] !== undefined) {
+      count = scores[playerId] - 1;
+    }
+    scores[playerId] = count
+    this.setState({ scores });
+  }
+
+  setScore = (playerId, score) => {
+    const scores = this.state.scores;
+    scores[playerId] = parseInt(score);
+    this.setState({ scores });
+  }
+
+  saveHole = (e) => {
+    e.preventDefault();
+    const holeId = this.props.hole._id;
+    const game = this.props.game;
+    const gameId = game._id;
+    Object.entries(this.state.scores).map( score => {
+      const data = {
+        score: score[1],
+        playerId: score[0],
+        holeId,
+        gameId,
+      }
+      console.warn('data',data);
+      this.props.dispatch(saveScore(data));
+    })
+    this.props.dispatch(updateHole(this.props.router, gameId, holeId, game.holes))
   }
 
   render() {
     const game = this.props.game || {};
-    const { name, playerIds, holes, playedHoles } = game;
+    const hole = this.props.hole || '';
+    const holeName = hole.name || '';
+    const { name, playerIds, playedHoles } = game;
     const scoring = this.props.players.filter( player => {
       return playerIds.indexOf(player._id) > -1;
     }).map( player => {
-      const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
-      const playerId = player._id;
-      let score = 0;
-      if (this.state.scores[player._id])
-        score = this.state.scores[player._id].score;
       return (
-        <div className="collection-item avatar" key={player._id}>
-          <div style={playerStyle} className="circle"></div>
-          <span className="title">{ player.name }</span>
-          <p>Stats here</p>
-          <div className="secondary-content score rowParent">
-            <div className="btn decrease flexChild">-</div>
-            <input className="flexChild" value={score} />
-            <div
-              className="btn increase flexChild"
-              onClick={ () => this.increaseScore(player._id) }
-            >+</div>
-          </div>
-        </div>
+        <Score
+          key={player._id}
+          player={player}
+          gameId={game._id}
+          holeId={hole._id}
+          scores={this.state.scores}
+          decreaseScore={this.decreaseScore}
+          increaseScore={this.increaseScore}
+          setScore={this.setScore}
+        />
       )
     })
     return (
       <div>
+        <h3>{holeName}</h3>
         <form onSubmit={this.saveHole}>
           <div className="collection col s12 m6">
             { scoring }
@@ -59,7 +89,10 @@ class Game extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     game: state.games.find( g => g._id === props.params.id),
-    players: state.players
+    players: state.players,
+    hole: state.holes.find( h => {
+      return h.gameId === props.params.id && h.hole === parseInt(props.params.number)
+    })
   }
 }
 

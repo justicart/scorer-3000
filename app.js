@@ -9,13 +9,15 @@ var LocalStrategy = require('passport-local').Strategy;
 var back = require('express-back');
 
 var mongoose = require('mongoose');
-const db = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost/scorer';
-mongoose.connect( db );
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/scorer';
+mongoose.connect(mongoURI);
 
 var index = require('./routes/index');
 var games = require('./routes/games');
 var players = require('./routes/players');
 const auth = require('./routes/auth');
+const holes = require('./routes/holes');
+const scores = require('./routes/scores');
 var app = express();
 
 // view engine setup
@@ -50,6 +52,8 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/api/games', games)
 app.use('/api/players', players)
 app.use('/api/auth', auth);
+app.use('/api/holes', holes);
+app.use('/api/scores', scores);
 
 app.use('*', index);
 

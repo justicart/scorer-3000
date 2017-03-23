@@ -1,43 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const Hole = require('../models/hole');
+const Score = require('../models/score');
 
 router.get('/', (req, res) => {
   console.log('routes')
-  Hole.find( ( err, holes ) => {
-    res.json(holes);
+  Score.find( ( err, scores ) => {
+    res.json(scores);
   });
 });
 
 router.post('/', (req, res) => {
-  const date = new Date();
-  new Hole({
-    name: date.toLocaleString(),
-    playerIds: req.body.playerIds,
-    hole: req.body.hole,
-    created_at: date,
+  new Score({
+    score: req.body.score,
+    playerId: req.body.playerId,
+    holeId: req.body.holeId,
     gameId: req.body.gameId
-  }).save( (err, hole) => {
-    res.json(hole);
+  }).save( (err, score) => {
+    res.json(score);
   });
 });
 
 router.put('/:id', ( req, res ) => {
   const date = new Date();
-  Hole.findByIdAndUpdate(
+  Score.findByIdAndUpdate(
     req.params.id,
     { $set: { finished_at: date }},
     { new: true },
-    (err, hole) => {
-      res.json(hole);
+    (err, score) => {
+      res.json(score);
     });
 });
 
 router.delete('/:id', (req, res) => {
-  let holeId = req.params.id;
-  Hole.findById(holeId, (err, hole) => {
-    hole.remove();
-    // List.find({ holeId }, (err, lists) => {
+  let scoreId = req.params.id;
+  Score.findById(scoreId, (err, score) => {
+    score.remove();
+    // List.find({ scoreId }, (err, lists) => {
     //   lists.forEach( list => {
     //     Card.find({'listId': list._id}).remove().exec();
     //     list.remove()
@@ -48,8 +46,8 @@ router.delete('/:id', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  Hole.findById(req.params.id, (err, hole) => {
-    res.json(hole);
+  Score.findById(req.params.id, (err, score) => {
+    res.json(score);
   })
 });
 

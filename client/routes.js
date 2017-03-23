@@ -27,7 +27,7 @@ export default (
       <Route component={SetupState}>
         <IndexRoute component={CreateGame} />
         <Route path="/settings" component={Settings} />
-        <Route path="/games/:id" component={Game} />
+        <Route path="/games/:id/hole/:number" component={Game} />
         <Route component={AuthenticatedRoutes}>
           <Route path="/dashboard" component={Dashboard} />
           <Route component={AdminRoutes}>
