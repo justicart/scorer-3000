@@ -16,10 +16,16 @@ router.get('/:id/holes', (req, res) => {
   });
 });
 
-router.get('/:id/holes/:number', (req, res) => {
+router.get('/:id/scores', (req, res) => {
+  Score.find({ gameId: req.params.id }, ( err, scores ) => {
+    console.log("ROUTER", scores)
+    res.json(scores);
+  });
+});
+
+router.get('/:id/holes/:number/scores', (req, res) => {
   Hole.findOne({ gameId: req.params.id, hole: req.params.number }, (err, hole) => {
     Score.find({ gameId: req.params.id, holeId: hole._id }, ( err, scores ) => {
-      console.log(scores)
       res.json(scores);
     });
   })
@@ -41,6 +47,7 @@ router.post('/', (req, res) => {
         name: `Hole ${index + 1}`,
         playerIds: game.playerIds,
         hole: holeNumber,
+        par: 4,
         gameId: game._id,
         date: date
       }).save( (err, hole) => {

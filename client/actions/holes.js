@@ -19,7 +19,7 @@ export const updateHole = (router, gameId, holeId, holes) => {
       type: 'PUT',
     }).done( hole => {
       dispatch({ type: 'UPDATE_HOLE', hole });
-      console.log(hole, holes)
+      // console.log(hole, holes)
       if (hole.hole < holes)
         return router.push(`/games/${gameId}/hole/${hole.hole + 1}`);
       return router.push(`/games/${gameId}`);

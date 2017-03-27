@@ -31,6 +31,10 @@ a {
   border-color: #ebccd1;
 }
 
+.small {
+  font-size: .4em;
+}
+
 
 /*MATERIALIZE OVERRIDE*/
 .collection .collection-item.avatar {

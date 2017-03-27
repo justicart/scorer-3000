@@ -1,7 +1,9 @@
-const scores = ( state = [], action ) => {
+const scores = ( state = {}, action ) => {
   switch (action.type) {
     case 'SCORES':
-      return action.scores
+      return {scores: action.scores, ...state}
+    case 'GAME_SCORES':
+      return {gameScores: action.scores, ...state}
     case 'ADD_SCORE':
       return [ action.score, ...state ]
     case 'UPDATE_SCORE':

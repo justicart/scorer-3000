@@ -25,12 +25,25 @@ export const getHolesForGame = (gameId) => {
   }
 }
 
+export const getScoresForGame = (gameId) => {
+  return (dispatch) => {
+    $.ajax({
+      url: `/api/games/${gameId}/scores`,
+      type: 'GET'
+    }).done( scores => {
+      console.log('game scores',scores)
+      dispatch({ type: 'GAME_SCORES', scores })
+    });
+  }
+}
+
 export const getScoresForHole = (gameId, holeNumber) => {
   return (dispatch) => {
     $.ajax({
-      url: `/api/games/${gameId}/holes/${holeNumber}`,
+      url: `/api/games/${gameId}/holes/${holeNumber}/scores`,
       type: 'GET'
     }).done( scores => {
+      // console.log('scores',scores)
       dispatch({ type: 'SCORES', scores })
     });
   }
@@ -54,11 +67,12 @@ export const addGame = (router, playerIds) => {
       // dispatch(setFlash('Game Added', 'success'))
       router.push(`/games/${game._id}/hole/1`);
     }).fail( err => {
-      let errors = err.responseJSON.errors;
-      let messages = Object.keys(errors)
-      .map( key => {
-        return( `${key} ${errors[key].kind}`)
-      }).join(', ');
+      // let errors = err.responseJSON.errors;
+      // let messages = Object.keys(errors)
+      // .map( key => {
+      //   return( `${key} ${errors[key].kind}`)
+      // }).join(', ');
+      let messages = err
       dispatch(setFlash(messages, 'error'));
     })
   }

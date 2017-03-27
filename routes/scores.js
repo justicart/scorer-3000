@@ -21,10 +21,12 @@ router.get('/', (req, res) => {
 // });
 
 router.post('/', (req, res) => {
+  console.log(req.body);
   const data = {
     score: req.body.score,
     playerId: req.body.playerId,
     holeId: req.body.holeId,
+    hole: req.body.hole,
     gameId: req.body.gameId
   }
   const query = {

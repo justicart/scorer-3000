@@ -5,6 +5,7 @@ const Score = new Schema({
   score: { type: Number },
   playerId: { type: String },
   holeId: { type: String },
+  hole: { type: Number },
   gameId: { type: String },
 });
 

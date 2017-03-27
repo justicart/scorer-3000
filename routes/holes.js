@@ -13,6 +13,7 @@ router.post('/', (req, res) => {
   const date = new Date();
   new Hole({
     name: date.toLocaleString(),
+    par: 4,
     playerIds: req.body.playerIds,
     hole: req.body.hole,
     created_at: date,
