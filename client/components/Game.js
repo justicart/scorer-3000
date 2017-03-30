@@ -54,7 +54,6 @@ class Game extends React.Component {
         hole,
         gameId,
       }
-      // console.warn('data',data);
       this.props.dispatch(saveScore(data));
     })
     this.setState({ scores: {} });
@@ -75,14 +74,11 @@ class Game extends React.Component {
     })
     const { name = '', playerIds = [], playedHoles = [] } = game;
     const gamePar = holes.filter( el => {
-      console.log(el.hole, hole.hole)
       return el.hole <= hole.hole
     })
     .reduce((total, hole) => {
-      console.log('par', hole)
       return total + hole.par
     }, 0);
-    console.log("game par",gamePar)
     const scoring = this.props.players.filter( player => {
       return playerIds.indexOf(player._id) > -1;
     }).map( player => {
@@ -93,6 +89,7 @@ class Game extends React.Component {
           gameId={game._id}
           holeId={hole._id}
           hole={hole.hole}
+          par={par}
           gamePar={gamePar}
           gameScores={gameScores}
           scores={this.state.scores}

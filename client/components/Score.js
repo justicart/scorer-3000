@@ -3,7 +3,6 @@ import React from 'react';
 class Score extends React.Component {
   componentDidMount() {
     const playerId = this.props.player._id;
-    // console.warn(this.props.savedScores[playerId]);
     this.props.setScore(playerId, this.props.savedScores[playerId])
   }
 
@@ -15,24 +14,22 @@ class Score extends React.Component {
 
   render() {
     let manualScore;
-    const player = this.props.player;
+    let { gameScores, scores, player, gamePar, par, hole } = this.props;
     const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
     const playerId = player._id;
-    let score = this.props.scores[player._id] || 0;
-    const totalScore = this.props.gameScores
+    const score = scores[player._id] || '-';
+    const totalScore = gameScores
     .filter( el => {
-      return el.hole && el.score && el.hole < this.props.hole && el.playerId === playerId
+      return el.hole && el.score && el.hole < hole && el.playerId === playerId
     })
     .reduce((total, score) => {
-      // console.log('total', total, player.name)
       return total + score.score
     }, 0);
-    console.log(this.props.gamePar, totalScore)
-    let overunder = (this.props.gamePar - (totalScore + score)) * -1
+    let overunder =
+      (totalScore + (score === '-' ? 0 : score)) - (gamePar - (score === '-' ? par : 0))
     if (overunder > 0)
       overunder = `+${overunder}`
 
-    // console.log('OVERUNDER', overunder);
     return (
       <div className="collection-item avatar" key={player._id}>
         <div style={playerStyle} className="circle"></div>
