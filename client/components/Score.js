@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 class Score extends React.Component {
   componentDidMount() {
@@ -25,15 +26,22 @@ class Score extends React.Component {
     .reduce((total, score) => {
       return total + score.score
     }, 0);
-    let overunder =
+    const overunder =
       (totalScore + (score === '-' ? 0 : score)) - (gamePar - (score === '-' ? par : 0))
-    if (overunder > 0)
-      overunder = `+${overunder}`
+    const overunderString = overunder > 0 ? `+${overunder}` : overunder;
+    const overunderClasses = classNames(
+      'leftScore',
+      {
+      over: overunder > 0,
+      under: overunder < 0,
+      }
+    )
 
     return (
-      <div className="collection-item avatar" key={player._id}>
+      <div className="collection-item avatar withLeftScore" key={player._id}>
+        <div className={overunderClasses}>{overunder}</div>
         <div style={playerStyle} className="circle"></div>
-        <span className="title">{ player.name }, {overunder}</span>
+        <span className="title">{ player.name }</span>
         <p>Stats here</p>
         <div className="secondary-content score rowParent">
           <div

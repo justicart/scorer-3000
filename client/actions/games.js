@@ -31,7 +31,6 @@ export const getScoresForGame = (gameId) => {
       url: `/api/games/${gameId}/scores`,
       type: 'GET'
     }).done( scores => {
-      console.log('game scores',scores)
       dispatch({ type: 'GAME_SCORES', scores })
     });
   }

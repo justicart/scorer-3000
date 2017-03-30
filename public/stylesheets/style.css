@@ -35,10 +35,36 @@ a {
   font-size: .4em;
 }
 
+.leftScore {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #bababa;
+  color: white;
+  text-align: center;
+  width: 60px;
+  height: 100%;
+  font-size: 3em;
+  line-height: 1.5em;
+}
+.leftScore.over {
+  background: red;
+}
+.leftScore.under {
+  background: green;
+}
 
 /*MATERIALIZE OVERRIDE*/
 .collection .collection-item.avatar {
   min-height: 64px !important;
+}
+
+.collection .collection-item.avatar.withLeftScore {
+  padding-left: 117px;
+}
+
+.collection .collection-item.avatar.withLeftScore .circle {
+  left: 65px;
 }
 
 .secondary-content.score {
