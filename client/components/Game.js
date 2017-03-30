@@ -56,9 +56,9 @@ class Game extends React.Component {
       }
       // console.warn('data',data);
       this.props.dispatch(saveScore(data));
-      this.setState({ scores: {} })
     })
-    this.props.dispatch(updateHole(this.props.router, gameId, holeId, game.holes))
+    this.setState({ scores: {} });
+    this.props.dispatch(updateHole(this.props.router, gameId, holeId, game.holes));
   }
 
   render() {

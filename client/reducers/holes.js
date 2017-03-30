@@ -7,7 +7,7 @@ const holes = ( state = [], action ) => {
     case 'UPDATE_HOLE':
       return state.map( hole => {
         if (hole._id === action.hole._id)
-          return action.hole;
+          return [ action.hole, ...state ];
         return hole;
       })
     case 'DELETE_HOLE':
