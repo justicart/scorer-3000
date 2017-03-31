@@ -6,7 +6,7 @@ import { updateHole } from '../actions/holes';
 import { getHolesForGame, getScoresForGame, getScoresForHole } from '../actions/games';
 
 class Game extends React.Component {
-  state = { holeIndex: 0, gameScores: {}, scores: {} };
+  state = { holeIndex: 0, gameScores: [], scores: [] };
 
   componentDidMount = () => {
     this.props.dispatch(getHolesForGame(this.props.params.id));
@@ -21,7 +21,9 @@ class Game extends React.Component {
       count = scores[playerId] + 1;
     }
     scores[playerId] = count
-    this.setState({ scores });
+    this.setState( (state) => {
+      return { scores }
+    })
   }
 
   decreaseScore = (playerId) => {
@@ -31,13 +33,17 @@ class Game extends React.Component {
       count = scores[playerId] - 1;
     }
     scores[playerId] = count
-    this.setState({ scores });
+    this.setState( (state) => {
+      return { scores }
+    })
   }
 
   setScore = (playerId, score) => {
     const scores = this.state.scores;
     scores[playerId] = parseInt(score);
-    this.setState({ scores });
+    this.setState( (state) => {
+      return { scores }
+    })
   }
 
   saveHole = (e) => {
@@ -56,7 +62,9 @@ class Game extends React.Component {
       }
       this.props.dispatch(saveScore(data));
     })
-    this.setState({ scores: {} });
+    this.setState( (state) => {
+      return { scores: {} }
+    })
     this.props.dispatch(updateHole(this.props.router, gameId, holeId, game.holes));
   }
 
@@ -122,8 +130,8 @@ const mapStateToProps = (state, props) => {
     hole: state.holes.find( h => {
       return h.gameId === props.params.id && h.hole === parseInt(props.params.number)
     }),
-    gameScores: state.scores.gameScores,
-    scores: state.scores.scores,
+    gameScores: state.gameScores,
+    scores: state.scores,
   }
 }
 

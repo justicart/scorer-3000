@@ -18,7 +18,6 @@ router.get('/:id/holes', (req, res) => {
 
 router.get('/:id/scores', (req, res) => {
   Score.find({ gameId: req.params.id }, ( err, scores ) => {
-    console.log("ROUTER", scores)
     res.json(scores);
   });
 });

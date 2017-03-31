@@ -4,7 +4,7 @@ import classNames from 'classnames';
 class Score extends React.Component {
   componentDidMount() {
     const playerId = this.props.player._id;
-    this.props.setScore(playerId, this.props.savedScores[playerId])
+    // this.props.setScore(playerId, this.props.savedScores[playerId])
   }
 
   setScore = (e) => {
@@ -14,7 +14,6 @@ class Score extends React.Component {
   }
 
   render() {
-    let manualScore;
     let { gameScores, scores, player, gamePar, par, hole } = this.props;
     const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
     const playerId = player._id;
@@ -26,8 +25,7 @@ class Score extends React.Component {
     .reduce((total, score) => {
       return total + score.score
     }, 0);
-    const overunder =
-      (totalScore + (score === '-' ? 0 : score)) - (gamePar - (score === '-' ? par : 0))
+    const overunder = (totalScore + (score === '-' ? 0 : score)) - (gamePar - (score === '-' ? par : 0))
     const overunderString = overunder > 0 ? `+${overunder}` : overunder;
     const overunderClasses = classNames(
       'leftScore',
@@ -42,7 +40,7 @@ class Score extends React.Component {
         <div className={overunderClasses}>{overunder}</div>
         <div style={playerStyle} className="circle"></div>
         <span className="title">{ player.name }</span>
-        <p>Stats here</p>
+        <p>{`${totalScore}, ${overunder}, ${score}, ${par}, ${gamePar}`}</p>
         <div className="secondary-content score rowParent">
           <div
             className="btn decrease flexChild"
@@ -50,6 +48,7 @@ class Score extends React.Component {
           >-</div>
           <input
             className="flexChild"
+            id={`score-${player._id}`}
             value={score}
             onChange={this.setScore}
           />

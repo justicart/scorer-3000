@@ -13,7 +13,7 @@ export const saveScore = (data) => {
         gameId: data.gameId,
       }
     }).done( score => {
-      // console.log(score);
+      return dispatch({ type: 'ADD_GAME_SCORE', score })
     }).fail( err => {
       console.error(err);
     })
