@@ -10,19 +10,22 @@ class GamesList extends React.Component {
   }
 
   render() {
-    const games = this.props.games.map( game => {
+    const user = this.props.user || {};
+    const isAdmin = user.role === 'admin';
+    const games = this.props.games || {};
+    const gamesList = games.map( game => {
       return (
         <li key={game._id} className="collection-item">
           <div>
             { game.name }
-            <span className="secondary-content">
+            {isAdmin && <span className="secondary-content">
               <Link to={`/games/${game._id}`}>
                 <i className="material-icons">mode_edit</i>
               </Link>
               <Link onClick={() => this.deleteGame(game._id)}>
                 <i className="red-text material-icons">delete</i>
               </Link>
-            </span>
+            </span>}
           </div>
         </li>
       )
@@ -31,7 +34,7 @@ class GamesList extends React.Component {
     return (
       <div className="row">
         <ul className="collection col s12">
-          {games}
+          {gamesList}
         </ul>
       </div>
     )
@@ -39,7 +42,10 @@ class GamesList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
- return { games: state.games }
+ return {
+   games: state.games,
+   user: state.user
+ }
 }
 
 export default connect(mapStateToProps)(GamesList);

@@ -30,12 +30,14 @@ class Auth extends React.Component {
         <h2 className="center">{title}</h2>
         <form onSubmit={this.handleSubmit}>
           <input
+            className="white-text"
             type="email"
             required
             ref={ n => this.email = n }
             placeholder="Email"
           />
           <input
+            className="white-text"
             type="password"
             required
             ref={ n => this.password = n }
