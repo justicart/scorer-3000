@@ -30,7 +30,7 @@ class GamesList extends React.Component {
             <Link to={`/games/${game._id}`}>{ game.name }</Link>
             <span className="secondary-content">
               {playerPics}
-              {isAdmin && <span>
+              {isAdmin && <span className="iconSection">
                 <Link onClick={() => this.deleteGame(game._id)}>
                   <i className="red-text material-icons">delete</i>
                 </Link>

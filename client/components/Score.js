@@ -41,7 +41,7 @@ class Score extends React.Component {
         <div className={overunderClasses}>{overunder}</div>
         <div style={playerStyle} className="circle"></div>
         <span className="title">{ player.name }</span>
-        <p>{`TOTAL: ${totalScore}`}</p>
+        <p>{`Total: ${totalScore}`}</p>
         <div className="secondary-content score rowParent">
           <div
             className="btn decrease flexChild"

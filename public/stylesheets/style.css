@@ -1,6 +1,4 @@
-a.brand-logo img {
-  width: 167px;
-}
+
 
 a {
   color: #2676a6;
@@ -70,6 +68,11 @@ td.total {
   font-weight: bold;
 }
 
+.iconSection {
+  /*border-left: 1px solid #f1f1f1;*/
+  margin-left: 5px;
+}
+
 
 /*MATERIALIZE OVERRIDE*/
 body {
@@ -78,6 +81,18 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: white;
+}
+
+a.brand-logo img {
+  width: 167px;
+}
+@media only screen and (max-width: 992px) {
+  nav .brand-logo img {
+    height: 60px;
+  }
+  .container {
+    width: 100% !important;
+  }
 }
 
 .secondary-content {
@@ -136,6 +151,7 @@ nav {
 
 .secondary-content.score {
   top: 10px !important;
+  right: 10px !important;
 }
 .secondary-content.score .decrease,
 .secondary-content.score .increase {
@@ -163,6 +179,8 @@ thead td {
   background: #424242;
   color: white;
   border-radius: 0;
+  font-weight: 300;
+  font-size: 0.8em;
 }
 
 tbody td {
