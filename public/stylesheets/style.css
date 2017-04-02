@@ -83,6 +83,14 @@ h1, h2, h3, h4, h5, h6 {
 .secondary-content {
   color: #2676a6 !important;
 }
+.secondary-content .circle {
+  height: 30px;
+  width: 30px;
+  float: left;
+  position: relative;
+  top: -5px;
+  margin-left: 3px;
+}
 
 a.collection-item {
   color: #2676a6 !important;

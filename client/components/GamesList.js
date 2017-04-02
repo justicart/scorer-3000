@@ -13,19 +13,29 @@ class GamesList extends React.Component {
     const user = this.props.user || {};
     const isAdmin = user.role === 'admin';
     const games = this.props.games || {};
+    const players = this.props.players || {};
     const gamesList = games.map( game => {
+      const { playerIds = [] } = game;
+      const playerPics = players.filter( p => {
+        return playerIds.indexOf(p._id) > -1;
+      }).map(player => {
+        const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
+        return (
+          <div key={player._id} style={playerStyle} className="circle"></div>
+        )
+      })
       return (
         <li key={game._id} className="collection-item">
           <div>
-            { game.name }
-            {isAdmin && <span className="secondary-content">
-              <Link to={`/games/${game._id}`}>
-                <i className="material-icons">mode_edit</i>
-              </Link>
-              <Link onClick={() => this.deleteGame(game._id)}>
-                <i className="red-text material-icons">delete</i>
-              </Link>
-            </span>}
+            <Link to={`/games/${game._id}`}>{ game.name }</Link>
+            <span className="secondary-content">
+              {playerPics}
+              {isAdmin && <span>
+                <Link onClick={() => this.deleteGame(game._id)}>
+                  <i className="red-text material-icons">delete</i>
+                </Link>
+              </span>}
+            </span>
           </div>
         </li>
       )
@@ -44,7 +54,8 @@ class GamesList extends React.Component {
 const mapStateToProps = (state) => {
  return {
    games: state.games,
-   user: state.user
+   user: state.user,
+   players: state.players,
  }
 }
 
