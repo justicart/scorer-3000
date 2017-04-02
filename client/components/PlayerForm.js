@@ -4,17 +4,21 @@ import { connect } from 'react-redux';
 import { addPlayer, deletePlayer } from '../actions/players';
 
 class PlayerForm extends React.Component {
+  state = { name: '', picture: '' };
   deletePlayer = (id) => {
     let { dispatch } = this.props;
     dispatch(deletePlayer(id));
   }
 
+  handleChange = (e) => {
+    const { target: { id, value } } = e;
+    this.setState({ [id]: value });
+  }
+
   render() {
     const user = this.props.user || {};
     const isAdmin = user.role === 'admin';
-    let name;
-    let image;
-    let form;
+    const { name, picture } = this.state;
     let { dispatch } = this.props;
     const playerList = this.props.players.map( player => {
       const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
@@ -39,15 +43,30 @@ class PlayerForm extends React.Component {
       <div className="row">
         <div className="col s12 m6">
           <form
-            ref={ n => form = n }
             onSubmit={ e => {
               e.preventDefault();
-              dispatch(addPlayer(name.value, image.value));
-              form.reset();
+              dispatch(addPlayer(name, picture));
+              this.setState({ name: '', picture: '' });
             }}
           >
-            <input className="white-text" name="name" type="text" ref={ n => name = n } placeholder="Player Name" />
-            <input className="white-text" name="image" type="text" ref={ n => image = n } placeholder="Player Picture URL" />
+            <input
+              id="name"
+              className="white-text"
+              name="name"
+              type="text"
+              value={name}
+              onChange={this.handleChange}
+              placeholder="Player Name"
+            />
+            <input
+              id="picture"
+              className="white-text"
+              name="image"
+              type="text"
+              value={picture}
+              onChange={this.handleChange}
+              placeholder="Player Picture URL"
+            />
             <button className="btn" type="submit">Add Player</button>
           </form>
         </div>
