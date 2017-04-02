@@ -22,7 +22,8 @@ class App extends React.Component {
   links = () => {
     return [
       { name: 'Home', path: '/' },
-      { name: 'Settings', path: '/settings' },
+      { name: 'Games', path: '/games' },
+      { name: 'Players', path: '/players' },
     ].map( (link, i) => {
       let active = this.props.location.pathname === link.path ? 'active' : '';
       return this.link(i, link.name, link.path);

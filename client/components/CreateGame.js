@@ -36,6 +36,8 @@ class CreateGame extends React.Component {
 
     return (
       <div>
+        <h3>Create Game</h3>
+        <p className="white-text">Choose players and start</p>
         <div className="collection col s12 m6">
           { playerList.length ?
             playerList :

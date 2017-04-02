@@ -4,7 +4,8 @@ import App from './containers/App';
 import NotFound from './components/NotFound';
 import SetupState from './components/SetupState';
 import CreateGame from './components/CreateGame';
-import Settings from './components/Settings';
+import Games from './components/Games';
+import Players from './components/Players';
 import Game from './components/Game';
 import Hole from './components/Hole';
 import Admin from './components/Admin';
@@ -27,7 +28,8 @@ export default (
     <Route path="/" component={App}>
       <Route component={SetupState}>
         <IndexRoute component={CreateGame} />
-        <Route path="/settings" component={Settings} />
+        <Route path="/games" component={Games} />
+        <Route path="/players" component={Players} />
         <Route path="/games/:id" component={Game} />
         <Route path="/games/:id/hole/:number" component={Hole} />
         <Route component={AuthenticatedRoutes}>
