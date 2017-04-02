@@ -1,122 +1,93 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Score from './Score';
-import { saveScore } from '../actions/scores';
-import { updateHole } from '../actions/holes';
-import { getHolesForGame, getScoresForGame, getScoresForHole } from '../actions/games';
+import { getHolesForGame, getScoresForGame } from '../actions/games';
+import classNames from 'classnames';
 
 class Game extends React.Component {
-  state = { holeIndex: 0, gameScores: [], scores: [] };
-
-  componentDidMount = () => {
+  componentDidMount() {
     this.props.dispatch(getHolesForGame(this.props.params.id));
     this.props.dispatch(getScoresForGame(this.props.params.id));
-    this.props.dispatch(getScoresForHole(this.props.params.id, this.props.params.number));
-  }
-
-  increaseScore = (playerId) => {
-    const scores = this.state.scores;
-    let count = 1;
-    if (scores[playerId]) {
-      count = scores[playerId] + 1;
-    }
-    scores[playerId] = count
-    this.setState( (state) => {
-      return { scores }
-    })
-  }
-
-  decreaseScore = (playerId) => {
-    const scores = this.state.scores;
-    let count = -1;
-    if (scores[playerId]) {
-      count = scores[playerId] - 1;
-    }
-    scores[playerId] = count
-    this.setState( (state) => {
-      return { scores }
-    })
-  }
-
-  setScore = (playerId, score) => {
-    const scores = this.state.scores;
-    scores[playerId] = parseInt(score);
-    this.setState( (state) => {
-      return { scores }
-    })
-  }
-
-  saveHole = (e) => {
-    e.preventDefault();
-    const holeId = this.props.hole._id;
-    const hole = this.props.hole.hole;
-    const game = this.props.game;
-    const gameId = game._id;
-    Object.entries(this.state.scores).map( score => {
-      const data = {
-        score: score[1],
-        playerId: score[0],
-        holeId,
-        hole,
-        gameId,
-      }
-      this.props.dispatch(saveScore(data));
-    })
-    this.setState( (state) => {
-      return { scores: {} }
-    })
-    this.props.dispatch(updateHole(this.props.router, gameId, holeId, game.holes));
   }
 
   render() {
-    const game = this.props.game || {};
-    const holes = this.props.holes || {};
-    const hole = this.props.hole || {};
-    const holeName = hole.name || '';
-    const par = hole.par || '';
+    const { name = '', playerIds = [] } = this.props.game || {};
+    const holes = this.props.holes || [];
+    const players = this.props.players || [];
     const gameScores = this.props.gameScores || [];
-    const savedScores = this.props.scores || [];
-    const formattedScores = {};
-    savedScores.map(score => {
-      return formattedScores[score.playerId] = score.score;
-    })
-    const { name = '', playerIds = [], playedHoles = [] } = game;
-    const gamePar = holes.filter( el => {
-      return el.hole <= hole.hole
-    })
-    .reduce((total, hole) => {
-      return total + hole.par
-    }, 0);
-    const scoring = this.props.players.filter( player => {
-      return playerIds.indexOf(player._id) > -1;
+    const playerList = players.filter( p => {
+      return playerIds.indexOf(p._id) > -1;
     }).map( player => {
+      const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
+      const scoresHeader = holes
+      .sort((a, b) => {
+        return a.hole - b.hole
+      })
+      .map(hole => {
+        const holeNumber = hole.hole || '';
+
+        return (
+          <td key={hole._id} className="flexChild">{holeNumber}</td>
+        )
+      });
+      const scores = holes
+      .sort((a, b) => {
+        return a.hole - b.hole
+      })
+      .map(hole => {
+        const holeScore = gameScores.find(s => s.holeId === hole._id && s.playerId === player._id) || {};
+        const score = holeScore.score || '-';
+        const holePar = hole.par || '';
+        const holeStyle = classNames(
+          'flexChild',
+          {
+            over: score > holePar,
+            under: score < holePar,
+          }
+        )
+        return (
+          <td key={hole._id} className={holeStyle}>{score}</td>
+        )
+      });
+      const totalScore = gameScores
+      .filter( el => {
+        return el.score && el.playerId === player._id
+      })
+      .reduce((total, score) => {
+        return total + score.score
+      }, 0);
       return (
-        <Score
-          key={player._id}
-          player={player}
-          gameId={game._id}
-          holeId={hole._id}
-          hole={hole.hole}
-          par={par}
-          gamePar={gamePar}
-          gameScores={gameScores}
-          scores={this.state.scores}
-          savedScores={formattedScores}
-          decreaseScore={this.decreaseScore}
-          increaseScore={this.increaseScore}
-          setScore={this.setScore}
-        />
+        <div key={player._id} className="collection col s12 m6">
+          <div className="collection-item avatar">
+            <div style={playerStyle} className="circle"></div>
+            {player.name}
+          </div>
+          <div className="collection-item scoreboard">
+            <table>
+              <thead>
+                <tr className="rowParent">
+                  {scoresHeader}
+                  <td className="total flexChild">
+                    T
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="rowParent">
+                  {scores}
+                  <td className="total flexChild">
+                    <strong>{totalScore}</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       )
     })
     return (
       <div>
-        <h3>{holeName} <span className="small">Par {par}</span></h3>
-        <form onSubmit={this.saveHole}>
-          <div className="collection col s12 m6">
-            { scoring }
-          </div>
-          <button className="btn" type="submit">Save Hole</button>
-        </form>
+        <h3>{name}</h3>
+        { playerList }
       </div>
     );
   }
@@ -127,11 +98,7 @@ const mapStateToProps = (state, props) => {
     game: state.games.find( g => g._id === props.params.id),
     players: state.players,
     holes: state.holes,
-    hole: state.holes.find( h => {
-      return h.gameId === props.params.id && h.hole === parseInt(props.params.number)
-    }),
     gameScores: state.gameScores,
-    scores: state.scores,
   }
 }
 

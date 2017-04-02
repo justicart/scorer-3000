@@ -14,7 +14,7 @@ class Score extends React.Component {
   }
 
   render() {
-    let { gameScores, scores, player, gamePar, par, hole } = this.props;
+    const { gameScores, scores, player, gamePar, par, hole } = this.props;
     const playerStyle = { background: `url(${player.image}) no-repeat 50% 50%/cover`};
     const playerId = player._id;
     const score = scores[player._id] || '-';
@@ -26,6 +26,7 @@ class Score extends React.Component {
       return total + score.score
     }, 0);
     const overunder = (totalScore + (score === '-' ? 0 : score)) - (gamePar - (score === '-' ? par : 0))
+    // const overunder = totalScore - gamePar;
     const overunderString = overunder > 0 ? `+${overunder}` : overunder;
     const overunderClasses = classNames(
       'leftScore',
@@ -40,7 +41,7 @@ class Score extends React.Component {
         <div className={overunderClasses}>{overunder}</div>
         <div style={playerStyle} className="circle"></div>
         <span className="title">{ player.name }</span>
-        <p>{`${totalScore}, ${overunder}, ${score}, ${par}, ${gamePar}`}</p>
+        <p>{`TOTAL: ${totalScore}`}</p>
         <div className="secondary-content score rowParent">
           <div
             className="btn decrease flexChild"

@@ -6,6 +6,7 @@ import SetupState from './components/SetupState';
 import CreateGame from './components/CreateGame';
 import Settings from './components/Settings';
 import Game from './components/Game';
+import Hole from './components/Hole';
 import Admin from './components/Admin';
 import Dashboard from './components/Dashboard';
 import Auth from './components/Auth';
@@ -27,7 +28,8 @@ export default (
       <Route component={SetupState}>
         <IndexRoute component={CreateGame} />
         <Route path="/settings" component={Settings} />
-        <Route path="/games/:id/hole/:number" component={Game} />
+        <Route path="/games/:id" component={Game} />
+        <Route path="/games/:id/hole/:number" component={Hole} />
         <Route component={AuthenticatedRoutes}>
           <Route path="/dashboard" component={Dashboard} />
           <Route component={AdminRoutes}>

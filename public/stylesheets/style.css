@@ -1,5 +1,9 @@
+a.brand-logo img {
+  width: 167px;
+}
+
 a {
-  color: #00B7FF;
+  color: #2676a6;
 }
 
 .picture {
@@ -48,13 +52,46 @@ a {
   line-height: 1.5em;
 }
 .leftScore.over {
-  background: red;
+  background: #961818;
 }
 .leftScore.under {
-  background: green;
+  background: #115d11;
 }
 
+.scoreboard .over {
+  color: red;
+}
+.scoreboard .under {
+  color: green;
+}
+
+
 /*MATERIALIZE OVERRIDE*/
+body {
+  background-color: #212320;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+
+.secondary-content {
+  color: #2676a6 !important;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #2676a6 !important;
+  box-shadow: 0 1px 0 0 #2676a6 !important;
+}
+
+.btn {
+  background-color: #2676a6 !important;
+}
+
+nav {
+  background-color: #609dbb !important;
+}
+
 .collection .collection-item.avatar {
   min-height: 64px !important;
 }
@@ -86,6 +123,25 @@ a {
   margin-bottom: 0 !important;
 }
 
+.collection .collection-item.scoreboard {
+  padding: 0;
+}
+
+thead td {
+  padding: 0;
+  text-align: center;
+  background: #424242;
+  color: white;
+  border-radius: 0;
+}
+
+tbody td {
+  border: 1px solid #f1f1f1;
+  padding: 0;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 2em;
+}
 
 /* Flexbox
 ***************************************************************************/
