@@ -70,12 +70,14 @@ class PlayerForm extends React.Component {
             <button className="btn" type="submit">Add Player</button>
           </form>
         </div>
-        <ul className="collection col s12 m6">
-           { playerList.length ?
-               playerList :
-               <li className="collection-item">Add Players To Get started</li>
-           }
-        </ul>
+        <div className="col s12 m6">
+          <ul className="collection">
+             { playerList.length ?
+                 playerList :
+                 <li className="collection-item">Add Players To Get started</li>
+             }
+          </ul>
+        </div>
       </div>
     );
   }

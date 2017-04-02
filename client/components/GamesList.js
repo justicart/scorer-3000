@@ -32,8 +32,8 @@ class GamesList extends React.Component {
     })
 
     return (
-      <div className="row">
-        <ul className="collection col s12">
+      <div className="col s12">
+        <ul className="collection">
           {gamesList}
         </ul>
       </div>
