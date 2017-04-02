@@ -75,7 +75,7 @@ class Game extends React.Component {
                 <tr className="rowParent">
                   {scores}
                   <td className="total flexChild">
-                    <strong>{totalScore}</strong>
+                    {totalScore}
                   </td>
                 </tr>
               </tbody>

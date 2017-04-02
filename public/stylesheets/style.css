@@ -43,7 +43,7 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  background: #bababa;
+  background: #5a5a5a;
   color: white;
   text-align: center;
   width: 60px;
@@ -65,10 +65,15 @@ a {
   color: green;
 }
 
+td.total {
+  background: #bababa;
+  font-weight: bold;
+}
+
 
 /*MATERIALIZE OVERRIDE*/
 body {
-  background-color: #212320;
+  background-color: #202325;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -79,13 +84,30 @@ h1, h2, h3, h4, h5, h6 {
   color: #2676a6 !important;
 }
 
+a.collection-item {
+  color: #2676a6 !important;
+}
+a.collection-item.active {
+  background-color: #2676a6 !important;
+  color: white !important;
+}
+.collection .collection-item.active .secondary-content {
+  color: #fff !important;
+}
+
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: 1px solid #2676a6 !important;
   box-shadow: 0 1px 0 0 #2676a6 !important;
 }
 
-.btn {
+.btn, .btn-large {
   background-color: #2676a6 !important;
+}
+.btn-large {
+  min-width: 50%;
+}
+.btn:hover, .btn-large:hover {
+  background-color: #21658e !important;
 }
 
 nav {

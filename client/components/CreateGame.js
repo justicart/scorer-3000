@@ -48,7 +48,7 @@ class CreateGame extends React.Component {
           this.props.dispatch(addGame(this.props.router, this.state.playerIds));
           }}
         >
-          <button className="btn">Start Game</button>
+          <button className="btn-large">Start Game</button>
         </form>
       </div>
     );

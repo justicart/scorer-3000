@@ -115,7 +115,7 @@ class Hole extends React.Component {
           <div className="collection col s12 m6">
             { scoring }
           </div>
-          <button className="btn" type="submit">Save Hole</button>
+          <button className="btn-large" type="submit">Save Hole</button>
         </form>
       </div>
     );
