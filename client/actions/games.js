@@ -56,7 +56,7 @@ export const addGame = (router, playerIds) => {
       type: 'POST',
       data: {
         playerIds: playerIds,
-        holes: 18,
+        holes: 20,
         playedHoles: [],
         name: date.toLocaleString(),
         date: date

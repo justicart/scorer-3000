@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
         name: `Hole ${index + 1}`,
         playerIds: game.playerIds,
         hole: holeNumber,
-        par: 4,
+        par: 3,
         gameId: game._id,
         date: date
       }).save( (err, hole) => {
